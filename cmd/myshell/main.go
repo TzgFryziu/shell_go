@@ -39,7 +39,7 @@ func handleCommand(command string, args []string) {
 		}
 		os.Exit(exitCode)
 	default:
-		fmt.Println(command, ": command not found")
+		fmt.Println(command + ": command not found")
 
 	}
 
