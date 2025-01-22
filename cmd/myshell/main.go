@@ -38,6 +38,11 @@ func handleCommand(command string, args []string) {
 			os.Exit(1)
 		}
 		os.Exit(exitCode)
+	case "echo":
+		for _, s := range args {
+			fmt.Print(s + " ")
+		}
+		fmt.Print("\n")
 	default:
 		fmt.Println(command + ": command not found")
 
