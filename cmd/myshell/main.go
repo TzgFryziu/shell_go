@@ -33,10 +33,16 @@ func handleCommand(command string, args []string) {
 
 	switch command {
 	case "exit":
-		exitCode, err := strconv.Atoi(args[0])
-		if err != nil {
+		if len(args) < 1 {
+			fmt.Println("Not enough arguments!")
 			os.Exit(1)
 		}
+		exitCode, err := strconv.Atoi(args[0])
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
 		os.Exit(exitCode)
 	case "echo":
 		for _, s := range args {
