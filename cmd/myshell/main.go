@@ -4,17 +4,17 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
-	_, err := fmt.Fprint(os.Stdout, "$ ")
-	if err != nil {
-		return
-	}
-
+	fmt.Fprint(os.Stdout, "$ ")
 	// Wait for user input
-	_, err = bufio.NewReader(os.Stdin).ReadString('\n')
+	command, err := bufio.NewReader(os.Stdin).ReadString('\n')
 	if err != nil {
-		return
+		fmt.Fprintln(os.Stderr, "Error reading input:", err)
+		os.Exit(1)
 	}
+	command = strings.TrimSpace(command) + ": command not found"
+	fmt.Println(command)
 }
