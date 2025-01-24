@@ -56,7 +56,7 @@ func handleCommand(command string, args []string) {
 		if slices.Contains(BUILTINS, args[0]) {
 			fmt.Println(args[0] + " is a shell builtin")
 		} else {
-			fmt.Println(args[0] + ": command not found")
+			fmt.Println(args[0] + ": not found")
 		}
 
 	default:
