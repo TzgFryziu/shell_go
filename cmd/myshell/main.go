@@ -60,7 +60,7 @@ func type_(args []string) {
 		found = true
 		fmt.Println(args[0] + " is a shell builtin")
 	}
-	paths := strings.Split(os.Getenv("PATH"), ";")
+	paths := strings.Split(os.Getenv("PATH"), ":")
 	for _, path := range paths {
 		fp := filepath.Join(path, args[0])
 		_, err := os.Stat(fp)
