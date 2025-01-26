@@ -57,8 +57,8 @@ func type_(args []string) {
 	var found bool
 
 	if slices.Contains(BUILTINS, args[0]) {
-		found = true
 		fmt.Println(args[0] + " is a shell builtin")
+		return
 	}
 	paths := strings.Split(os.Getenv("PATH"), ":")
 	for _, path := range paths {
