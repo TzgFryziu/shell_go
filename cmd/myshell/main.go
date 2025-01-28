@@ -16,13 +16,11 @@ var BUILTINS = []string{"echo", "type", "exit"}
 func main() {
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
-		os.Stdout.Sync()
 		// Wait for user input
-		input, err := bufio.NewReader(os.Stdin).ReadString('\n')
-		if err != nil {
-			fmt.Fprintln(os.Stderr, "Error reading input:", err)
-			os.Exit(1)
-		}
+		scanner := bufio.NewScanner(os.Stdin)
+		scanner.Scan()
+		input := scanner.Text()
+
 		inputParts := strings.Split(input, " ")
 		command := inputParts[0]
 		args := inputParts[1:]
