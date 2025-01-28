@@ -46,15 +46,16 @@ func handleCommand(command string, args []string) {
 	default:
 		if command[0] == '.' && command[1] == '/' {
 			runProgram(command[2:], args)
+		} else {
+			fmt.Println(command + ": command not found")
 		}
-		fmt.Println(command + ": command not found")
 
 	}
 
 }
 
 func runProgram(fileName string, args []string) {
-	paths := strings.Split(os.Getenv("PATH"), ":")
+	paths := strings.Split(os.Getenv("PATH"), string(os.PathListSeparator))
 	for _, path := range paths {
 		fp := filepath.Join(path, fileName)
 		_, err := os.Stat(fp)
@@ -81,7 +82,7 @@ func type_(args []string) {
 		fmt.Println(args[0] + " is a shell builtin")
 		return
 	}
-	paths := strings.Split(os.Getenv("PATH"), ":")
+	paths := strings.Split(os.Getenv("PATH"), string(os.PathListSeparator))
 	for _, path := range paths {
 		fp := filepath.Join(path, args[0])
 		_, err := os.Stat(fp)
