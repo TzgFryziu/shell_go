@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"slices"
 	"strconv"
@@ -43,12 +44,32 @@ func handleCommand(command string, args []string) {
 	case "type":
 		type_(args)
 	default:
+		if command[0] == '.' && command[1] == '/' {
+			runProgram(command[2:], args)
+		}
 		fmt.Println(command + ": command not found")
 
 	}
 
 }
 
+func runProgram(fileName string, args []string) {
+	paths := strings.Split(os.Getenv("PATH"), ":")
+	for _, path := range paths {
+		fp := filepath.Join(path, fileName)
+		_, err := os.Stat(fp)
+		if err == nil {
+			cmd := exec.Command(fileName, args...)
+			stdout, err := cmd.Output()
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+			fmt.Println(string(stdout))
+			return
+		}
+	}
+}
 func type_(args []string) {
 	if len(args) < 1 {
 		fmt.Println(args[0] + ": not found")
