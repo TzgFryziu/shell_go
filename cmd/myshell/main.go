@@ -44,7 +44,7 @@ func handleCommand(command string, args []string) {
 	case "type":
 		type_(args[0])
 	default:
-		if type_(command) {
+		if found, _ := doesFileExist(command); found {
 			runProgram(command, args)
 		} else {
 			fmt.Println(command + ": command not found")
@@ -54,43 +54,45 @@ func handleCommand(command string, args []string) {
 
 }
 
-func runProgram(fileName string, args []string) {
+func doesFileExist(fileName string) (bool, string) {
+
+	var found bool
+	var result string
 	paths := strings.Split(os.Getenv("PATH"), string(os.PathListSeparator))
 	for _, path := range paths {
 		fp := filepath.Join(path, fileName)
 		_, err := os.Stat(fp)
 		if err == nil {
-			cmd := exec.Command(fileName, args...)
-			stdout, err := cmd.Output()
-			if err != nil {
-				fmt.Println(err.Error())
-				return
-			}
-			fmt.Println(string(stdout))
-			return
+			found = true
+			result = fp
+			break
 		}
 	}
+	return found, result
 }
-func type_(comm string) bool {
-	var found bool
+
+func runProgram(fileName string, args []string) {
+	cmd := exec.Command(fileName, args...)
+	stdout, err := cmd.Output()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	fmt.Println(string(stdout))
+	return
+
+}
+
+func type_(comm string) {
 
 	if slices.Contains(BUILTINS, comm) {
 		fmt.Println(comm + " is a shell builtin")
-		return true
 	}
-	paths := strings.Split(os.Getenv("PATH"), string(os.PathListSeparator))
-	for _, path := range paths {
-		fp := filepath.Join(path, comm)
-		_, err := os.Stat(fp)
-		if err == nil {
-			found = true
-			fmt.Println(comm + " is " + fp)
-		}
-	}
-	if !found {
+	if found, path_ := doesFileExist(comm); found {
+		fmt.Println(comm+" is ", path_)
+	} else {
 		fmt.Println(comm + ": not found")
 	}
-	return found
 
 }
 
