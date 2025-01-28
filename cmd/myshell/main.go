@@ -42,10 +42,10 @@ func handleCommand(command string, args []string) {
 	case "echo":
 		echo(args)
 	case "type":
-		type_(args)
+		type_(args[0])
 	default:
-		if command[0] == '.' && command[1] == '/' {
-			runProgram(command[2:], args)
+		if type_(command) {
+			runProgram(command, args)
 		} else {
 			fmt.Println(command + ": command not found")
 		}
@@ -71,29 +71,26 @@ func runProgram(fileName string, args []string) {
 		}
 	}
 }
-func type_(args []string) {
-	if len(args) < 1 {
-		fmt.Println(args[0] + ": not found")
-	}
-
+func type_(comm string) bool {
 	var found bool
 
-	if slices.Contains(BUILTINS, args[0]) {
-		fmt.Println(args[0] + " is a shell builtin")
-		return
+	if slices.Contains(BUILTINS, comm) {
+		fmt.Println(comm + " is a shell builtin")
+		return true
 	}
 	paths := strings.Split(os.Getenv("PATH"), string(os.PathListSeparator))
 	for _, path := range paths {
-		fp := filepath.Join(path, args[0])
+		fp := filepath.Join(path, comm)
 		_, err := os.Stat(fp)
 		if err == nil {
 			found = true
-			fmt.Println(args[0] + " is " + fp)
+			fmt.Println(comm + " is " + fp)
 		}
 	}
 	if !found {
-		fmt.Println(args[0] + ": not found")
+		fmt.Println(comm + ": not found")
 	}
+	return found
 
 }
 
