@@ -90,7 +90,7 @@ func type_(comm string) {
 		fmt.Println(comm + " is a shell builtin")
 	}
 	if found, path_ := doesFileExist(comm); found {
-		fmt.Println(comm+" is ", path_)
+		fmt.Println(comm+" is", path_)
 	} else {
 		fmt.Println(comm + ": not found")
 	}
