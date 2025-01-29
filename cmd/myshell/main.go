@@ -90,11 +90,10 @@ func type_(comm string) {
 		fmt.Fprint(os.Stdout, comm+" is a shell builtin")
 	}
 	if found, path_ := doesFileExist(comm); found {
-		fmt.Fprint(os.Stdout, comm+" is", path_)
+		fmt.Fprint(os.Stdout, comm+" is ", path_)
 	} else {
 		fmt.Fprint(os.Stdout, comm+": not found")
 	}
-
 	fmt.Fprint(os.Stdout, "\n")
 }
 
