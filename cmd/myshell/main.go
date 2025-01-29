@@ -48,7 +48,7 @@ func handleCommand(command string, args []string) {
 		if found, _ := doesFileExist(command); found {
 			runProgram(command, args)
 		} else {
-			fmt.Fprint(os.Stdout, command+": command not found")
+			fmt.Fprint(os.Stdout, command+": command not found\n")
 		}
 
 	}
