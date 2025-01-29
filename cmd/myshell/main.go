@@ -95,6 +95,7 @@ func type_(comm string) {
 		fmt.Fprint(os.Stdout, comm+": not found")
 	}
 
+	fmt.Fprint(os.Stdout, "\n")
 }
 
 func echo(args []string) {
