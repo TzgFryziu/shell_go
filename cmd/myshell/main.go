@@ -48,7 +48,7 @@ func handleCommand(command string, args []string) {
 		if found, _ := doesFileExist(command); found {
 			runProgram(command, args)
 		} else {
-			fmt.Println(command + ": command not found")
+			fmt.Fprint(os.Stdout, command+": command not found")
 		}
 
 	}
@@ -76,7 +76,7 @@ func runProgram(fileName string, args []string) {
 	cmd := exec.Command(fileName, args...)
 	stdout, err := cmd.Output()
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Fprint(os.Stdout, err.Error())
 		return
 	}
 	fmt.Fprint(os.Stdout, string(stdout))
@@ -87,32 +87,32 @@ func runProgram(fileName string, args []string) {
 func type_(comm string) {
 
 	if slices.Contains(BUILTINS, comm) {
-		fmt.Println(comm + " is a shell builtin")
+		fmt.Fprint(os.Stdout, comm+" is a shell builtin")
 	}
 	if found, path_ := doesFileExist(comm); found {
-		fmt.Println(comm+" is", path_)
+		fmt.Fprint(os.Stdout, comm+" is", path_)
 	} else {
-		fmt.Println(comm + ": not found")
+		fmt.Fprint(os.Stdout, comm+": not found")
 	}
 
 }
 
 func echo(args []string) {
 	for _, s := range args {
-		fmt.Print(s + " ")
+		fmt.Fprint(os.Stdout, s+" ")
 	}
-	fmt.Print("\n")
+	fmt.Fprint(os.Stdout, "\n")
 }
 
 func exit(args []string) {
 
 	if len(args) < 1 {
-		fmt.Println("Not enough arguments!")
+		fmt.Fprint(os.Stdout, "Not enough arguments!")
 		os.Exit(1)
 	}
 	exitCode, err := strconv.Atoi(args[0])
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprint(os.Stdout, err)
 		os.Exit(1)
 	}
 
