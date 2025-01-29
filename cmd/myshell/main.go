@@ -79,7 +79,7 @@ func runProgram(fileName string, args []string) {
 		fmt.Println(err.Error())
 		return
 	}
-	fmt.Fprint(os.Stdout, stdout)
+	fmt.Fprint(os.Stdout, string(stdout))
 	return
 
 }
