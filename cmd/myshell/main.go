@@ -16,11 +16,13 @@ var BUILTINS = []string{"echo", "type", "exit"}
 func main() {
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
-		// Wait for user input
-		scanner := bufio.NewScanner(os.Stdin)
-		scanner.Scan()
-		input := scanner.Text()
 
+		// Wait for user input
+		input, err := bufio.NewReader(os.Stdin).ReadString('\n')
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "Error reading input:", err)
+			os.Exit(1)
+		}
 		inputParts := strings.Split(input, " ")
 		command := inputParts[0]
 		args := inputParts[1:]
@@ -77,7 +79,7 @@ func runProgram(fileName string, args []string) {
 		fmt.Println(err.Error())
 		return
 	}
-	fmt.Println(string(stdout))
+	fmt.Fprint(os.Stdout, stdout)
 	return
 
 }
