@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-var BUILTINS = []string{"echo", "type", "exit"}
+var BUILTINS = []string{"echo", "type", "exit", "pwd"}
 
 func main() {
 	for {
@@ -44,6 +44,8 @@ func handleCommand(command string, args []string) {
 		echo(args)
 	case "type":
 		type_(args[0])
+	case "pwd":
+		pwd()
 	default:
 		if found, _ := doesFileExist(command); found {
 			runProgram(command, args)
@@ -53,6 +55,15 @@ func handleCommand(command string, args []string) {
 
 	}
 
+}
+
+func pwd() {
+	wd, err := os.Getwd()
+	if err != nil {
+		fmt.Fprint(os.Stdout, err)
+		return
+	}
+	fmt.Fprint(os.Stdout, wd+"\n")
 }
 
 func doesFileExist(fileName string) (bool, string) {
