@@ -11,9 +11,10 @@ import (
 	"strings"
 )
 
-var BUILTINS = []string{"echo", "type", "exit", "pwd"}
+var BUILTINS = []string{"echo", "type", "exit", "pwd", "cd"}
 
 func main() {
+
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
 
@@ -46,6 +47,8 @@ func handleCommand(command string, args []string) {
 		type_(args[0])
 	case "pwd":
 		pwd()
+	case "cd":
+		cd(args[0])
 	default:
 		if found, _ := doesFileExist(command); found {
 			runProgram(command, args)
@@ -55,6 +58,11 @@ func handleCommand(command string, args []string) {
 
 	}
 
+}
+func cd(path string) {
+	if err := os.Chdir(path); err != nil {
+		fmt.Fprint(os.Stdout, "cd: "+path+": No such file or directory\n")
+	}
 }
 
 func pwd() {
