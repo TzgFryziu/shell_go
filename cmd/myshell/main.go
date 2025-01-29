@@ -87,7 +87,8 @@ func runProgram(fileName string, args []string) {
 func type_(comm string) {
 
 	if slices.Contains(BUILTINS, comm) {
-		fmt.Fprint(os.Stdout, comm+" is a shell builtin")
+		fmt.Fprint(os.Stdout, comm+" is a shell builtin\n")
+		return
 	}
 	if found, path_ := doesFileExist(comm); found {
 		fmt.Fprint(os.Stdout, comm+" is ", path_)
