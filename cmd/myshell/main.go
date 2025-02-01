@@ -70,8 +70,7 @@ func cd(path string) {
 			fmt.Fprint(os.Stdout, "cd: "+path+": No such file or directory\n")
 		}
 	}
-
-	if err := os.Chdir(path); err != nil {
+	if err := os.Chdir(path); err != nil && len(path) > 2 {
 		fmt.Fprint(os.Stdout, "cd: "+path+": No such file or directory\n")
 	}
 }
