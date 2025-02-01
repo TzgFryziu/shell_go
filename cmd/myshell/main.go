@@ -57,9 +57,19 @@ func handleCommand(command string, args []string) {
 		}
 
 	}
-
 }
+
 func cd(path string) {
+	if path[0] == '~' {
+		home, err := os.UserHomeDir()
+		if err != nil {
+			fmt.Fprint(os.Stdout, "Error getting home dir")
+		}
+		if err := os.Chdir(home); err != nil {
+			fmt.Fprint(os.Stdout, "cd: "+path+": No such file or directory\n")
+		}
+		return
+	}
 	if err := os.Chdir(path); err != nil {
 		fmt.Fprint(os.Stdout, "cd: "+path+": No such file or directory\n")
 	}
